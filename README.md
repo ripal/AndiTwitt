@@ -11,3 +11,9 @@ ______________________
 
 TUTORIAL OF AndiTwitt
 ______________________
+
+First thing will come in your mind is "What is oAuth and how it works?"
+Well, i have very nice link for it to get understand what is it actually? why we need it? and how it is working?
+(Good thing is this link explains all those in very simple and short lines :D )
+
+http://lifehacker.com/5918086/understanding-oauth-what-happens-when-you-log-into-a-site-with-google-twitter-or-facebook
