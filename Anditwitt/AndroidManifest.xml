@@ -34,6 +34,7 @@
             android:name="com.rtamboli.anditwitt.TwitterActivity"
             android:label="@string/title_activity_twitter"
             android:launchMode="singleTask" > <!-- TWITTER       SINGLETASK      TWITTER END -->
+            <intent-filter>
             <!-- TWITTER -->
                 <action android:name="android.intent.action.VIEW" />
 
@@ -47,6 +48,7 @@
                     android:scheme="@string/app_name" >
                 </data>
                 <!-- TWITTER END -->
+                </intent-filter>
         </activity>
     </application>
 

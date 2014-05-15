@@ -1,8 +1,10 @@
 package com.rtamboli.anditwitt;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -13,6 +15,8 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 	// this will be used to load twitter login page.
 	private WebView webView;
 	
+	private ProgressDialog pd=null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,9 +24,15 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 		
 		webView=(WebView)findViewById(R.id.webView);
 
+		showDefaultProgress();
+		
 		twitter=new Twitter();
+		
+		// first set consumer and secret key
 		Twitter.setConsumerKey("your consumer key");
 		Twitter.setConsumerSecretKey("your consumer secret key");
+		
+		// as our application is android, we need to catch the response return from the web login page (i.e. callback), "oob" set.
 		Twitter.setCallBackURL(getResources().getString(R.string.app_name)+"://callback");
 		
 		/* *****************
@@ -41,6 +51,9 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 		 *      STEP 3
 		 * ***************** */
 		if(twitter!=null) {
+			
+			showDefaultProgress();
+			
 			webView.setVisibility(View.GONE);
 			
 			// check response from twitter server is null(fail) or success.
@@ -67,6 +80,7 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 		}
 	}
 
+	//region [ On Twitter Server Response ]
 	@Override
 	public void onResponse(int requestedAction, String twitterResponse) {
 
@@ -105,6 +119,8 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 						
 						
 						// ONCE USER LOGGED IN, CALLBACK URL will be fall in "OnNewIntent" callback method of android.
+						
+						stopProgress();
 					}
 				});
 				
@@ -117,21 +133,26 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 				@Override
 				public void run() {
 					//show toast of twitter request fail
+					stopProgress();
 				}
 			});
 		} else if(requestedAction==Twitter.ACCESS_TOKEN_SUCCESS) {
 			
-			/* *****************
+			/* ************************
 			 *      FINAL OUTPUT
-			 * ***************** */
+			 * ************************ */
 			if(twitterResponse.contains("user_id")) {
 				
 				String[] parameterArray=twitterResponse.split("&");
 				String twitterUserId=parameterArray[2].split("=")[1];
 				String twitterScreenName=parameterArray[3].split("=")[1];
 				
+				Log.i("AndiTwitt", "User ID : "+twitterUserId);
+				Log.i("AndiTwitt", "User Screen Name : "+twitterScreenName);
 				//you successfully got user's screen name. show screen name as you want to display.
 				//you can also tweet using above userid details.
+				
+				stopProgress();
 				
 			} else {
 				runOnUiThread(new Runnable() {
@@ -139,6 +160,7 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 					@Override
 					public void run() {
 						//show toast of twitter request fail
+						stopProgress();
 					}
 				});
 			}
@@ -150,9 +172,28 @@ public class TwitterActivity extends Activity implements TwitterCallBack{
 				@Override
 				public void run() {
 					//show toast of twitter request fail
+					stopProgress();
 				}
 			});
 		}
 	}
+	//endregion
+	
+	//region [ show progressbar ]
+	public void showDefaultProgress() {
+        if (pd == null)
+            pd = new ProgressDialog(this);
+        pd.setMessage("please wait...");
+        pd.setCancelable(false);
+        pd.show();
+    }
+	//endregion
+	
+	//region [ stop progress ]
+	public void stopProgress(){
+		if(pd!=null)
+			pd.dismiss();
+	}
+	//endregion
 	
 }

@@ -115,8 +115,7 @@ public class Twitter {
 	}
 	//endregion
 	
-	
-	
+	//region [ After Authentication, Get Access Toekn which will be use to get parituclar user details ]	
 	public void getAccessTokenFromTwitter(final String oAuthToken,final String oAuthVerifier,final TwitterCallBack twitterCallBack) {
 		String nonce=computeNonce();
 		String timeStamp=computeTimeStamp();
@@ -156,8 +155,9 @@ public class Twitter {
 			e.printStackTrace();
 		}
 	}
+	//endregion
 	
-	
+	//region [ Call Twitter API Operation - talk with twitter server and will pass response of twitter server to TwitterCallBack]
 	private String callTwitterAPI(final String URL,final String headerData,final String bodyData) {
 		
 		BufferedReader in = null;
@@ -209,6 +209,7 @@ public class Twitter {
 		return null;
 		
 	}
+	//endregion
 	
 	
 	
