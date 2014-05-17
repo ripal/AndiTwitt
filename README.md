@@ -23,7 +23,6 @@ http://lifehacker.com/5918086/understanding-oauth-what-happens-when-you-log-into
 
 ====================================
 
-<h2>Tutorial of AndiTwitt Library</h2>
+<h2><a href="http://ripal-tamboli.in/twitter/anditwitt/" target="_blank">Tutorial of AndiTwitt Library</a></h2>
 ====================================
 
-<a href="http://ripal-tamboli.in/twitter/anditwitt/" target="_blank"> TUTORIAL </a>
